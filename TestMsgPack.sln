@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.0.0
 MinimumVisualStudioVersion = 10.0.0.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMsgPack", "TestMsgPack/TestMsgPack.csproj", "{9E32CB7E-A217-4A17-8D15-D3DD1725542E}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TestMsgPack", "TestMsgPack/TestMsgPack.xproj", "{A1C16768-6938-4E5A-AF5F-8C7DD08E2E97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9E32CB7E-A217-4A17-8D15-D3DD1725542E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E32CB7E-A217-4A17-8D15-D3DD1725542E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E32CB7E-A217-4A17-8D15-D3DD1725542E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E32CB7E-A217-4A17-8D15-D3DD1725542E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1C16768-6938-4E5A-AF5F-8C7DD08E2E97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1C16768-6938-4E5A-AF5F-8C7DD08E2E97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1C16768-6938-4E5A-AF5F-8C7DD08E2E97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1C16768-6938-4E5A-AF5F-8C7DD08E2E97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
