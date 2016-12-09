@@ -1,14 +1,108 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
+
+using MsgPack.Serialization;
 
 namespace TestMsgPack
 {
   internal class Program
   {
+    private const string Dir = "../serialized";
+
     public static void Main(string[] args)
     {
+      // directory check
+      if (!Directory.Exists(Dir)) {
+        Directory.CreateDirectory(Dir);
+      }
+
+      Console.WriteLine("start packing...");
+
+      List<int> ints = new List<int>() {1,2,3,4,5,6,7,8,9,Int32.MaxValue};
+      List<string> strings = new List<string>() {"Can","you","see","this","array","message","?"};
+      List<float> floats = new List<float>(){1.2f, 3.4f, 5.6f, 7.8f};
+      List<ulong> empty = new List<ulong>();
+
+      // packing
+      PackSimple<Int16>(-16);
+      PackSimple<Int32>(-32);
+      PackSimple<Int64>(-64);
+      PackSimple<UInt16>(16);
+      PackSimple<UInt32>(32);
+      PackSimple<UInt64>(64);
+      PackSimple<Single>(1.23456f);
+      PackSimple<Double>(2.3456789);
+      PackSimple<bool>(false);
+      PackSimple<Byte>(255);
+      PackSimple<SByte>(-127);
+      PackSimple<Char>('a');
+      PackSimple<TimeSpan>(TimeSpan.FromSeconds(10));
+      PackSimple<DateTime>(DateTime.Now);
+      PackSimple<DateTimeOffset>(DateTimeOffset.Now);
+      PackSimple<String>("This is simple pack.");
+
+      PackSimple<List<int>>(ints, "ListInt");
+      PackSimple<List<string>>(strings, "ListString");
+      PackSimple<List<float>>(floats, "ListFloat");
+      PackSimple<List<ulong>>(empty, "ListEmpty");
+
+      PackObject<Data.Primitive>();
+      //PackObject<Data.PrimitiveNullable>();
+
+      Console.WriteLine("completed.");
+
+    }
+
+    private static void PackSimple<T>(T value, string name = "")
+    {
+      var serializer = SerializationContext.Default.GetSerializer<T>();
+      var stream = new MemoryStream();
+      serializer.Pack(stream, value);
+
+      byte[] data = stream.ToArray();
+      SaveAndCheck<T>(data, name);
+    }
+
+    private static void PackObject<T>(string name = "") where T : Data.Base, new()
+    {
+      T obj = new T();
+      obj.DataSet();
+
+      var serializer = SerializationContext.Default.GetSerializer<T>();
+      var stream = new MemoryStream();
+      serializer.Pack(stream, obj);
+
+      byte[] data = stream.ToArray();
+      SaveAndCheck<T>(data, name);
+    }
+
+    private static void SaveAndCheck<T>(byte[] data, string name)
+    {
+      string s = name.Length < 1 ? typeof(T).Name : name;
+      // save
+      File.WriteAllBytes(PackName<T>(name), data);
+      Console.WriteLine("packed : " + s );
+
+      // deserialize check
+      FileStream fs = new FileStream(PackName<T>(name), FileMode.Open);
+      byte[] bs = new byte[fs.Length];
+      fs.Read(bs, 0, bs.Length);
+
+      // deserialize
+      var serializer = SerializationContext.Default.GetSerializer<T>();
+      var stream = new MemoryStream(bs);
+      var unpack = serializer.Unpack(stream);
+      //Console.WriteLine("deserialize ok");
+    }
+
+    private static string PackName<T>(string name)
+    {
+      if (name.Length < 1)
+      {
+        name = typeof(T).Name;
+      }
+      return Dir + "/" + name + ".pack";
     }
   }
 }

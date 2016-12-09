@@ -5,7 +5,7 @@
     "emitEntryPoint": true
   },
   "dependencies": {
-      "MsgPack": "0.1.0.2011042300"
+      "MsgPack.Cli": "0.8.0"
   },
   "frameworks": {
     "netcoreapp1.0": {
